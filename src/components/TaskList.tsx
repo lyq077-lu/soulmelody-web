@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { SongTask } from '../api/client';
 
 interface TaskListProps {
@@ -9,10 +9,10 @@ interface TaskListProps {
 }
 
 const statusConfig = {
-  pending: { label: '等待中', color: '#fbbf24', bg: '#fbbf24/10' },
-  processing: { label: '生成中', color: '#6366f1', bg: '#6366f1/10' },
-  completed: { label: '已完成', color: '#34d399', bg: '#34d399/10' },
-  failed: { label: '失败', color: '#f87171', bg: '#f87171/10' },
+  pending: { label: '等待中', color: '#fbbf24', bg: 'rgba(251, 191, 36, 0.15)' },
+  processing: { label: '生成中', color: '#6366f1', bg: 'rgba(99, 102, 241, 0.15)' },
+  completed: { label: '已完成', color: '#34d399', bg: 'rgba(52, 211, 153, 0.15)' },
+  failed: { label: '失败', color: '#f87171', bg: 'rgba(248, 113, 113, 0.15)' },
 };
 
 const styleLabels: Record<string, string> = {
@@ -22,6 +22,15 @@ const styleLabels: Record<string, string> = {
   electronic: '电子',
   classical: '古典',
   jazz: '爵士',
+};
+
+const moodEmojis: Record<string, string> = {
+  happy: '😊',
+  sad: '😢',
+  romantic: '😍',
+  energetic: '⚡',
+  calm: '😌',
+  epic: '🔥',
 };
 
 export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListProps) {
@@ -47,23 +56,27 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
   };
 
   return (
-    <div className="bg-[#1e293b] rounded-2xl p-6 border border-[#334155]">
+    <div className="bg-[#0f172a]/60 backdrop-blur-xl rounded-2xl p-6 lg:p-8 border border-white/10 shadow-2xl">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-xl font-semibold flex items-center gap-2">
-          <span className="text-2xl">📝</span>
-          生成记录
+        <h2 className="text-xl lg:text-2xl font-bold flex items-center gap-3">
+          <span className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#34d399] to-[#10b981] flex items-center justify-center text-lg">
+            📝
+          </span>
+          <span className="gradient-text">生成记录</span>
         </h2>
-        <span className="text-sm text-[#94a3b8]">{tasks.length} 首歌曲</span>
+        <span className="text-sm text-white/50 bg-white/10 px-3 py-1 rounded-full">
+          {tasks.length} 首
+        </span>
       </div>
 
       {tasks.length === 0 ? (
-        <div className="text-center py-12 text-[#64748b]">
-          <div className="text-4xl mb-3">🎼</div>
-          <p>还没有生成的歌曲</p>
-          <p className="text-sm mt-1">在左侧开始创作你的第一首歌吧</p>
+        <div className="text-center py-16 text-white/40">
+          <div className="text-5xl mb-4 opacity-50">🎼</div>
+          <p className="text-lg">还没有生成的歌曲</p>
+          <p className="text-sm mt-2 opacity-70">在左侧开始创作你的第一首歌吧</p>
         </div>
       ) : (
-        <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2">
+        <div className="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
           {tasks.map((task) => {
             const status = statusConfig[task.status];
             const isCurrent = task.id === currentTaskId;
@@ -74,38 +87,39 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
                 key={task.id}
                 className={`p-4 rounded-xl border transition-all ${
                   isCurrent
-                    ? 'border-[#6366f1] bg-[#6366f1]/5'
-                    : 'border-[#334155] bg-[#0f172a] hover:border-[#475569]'
+                    ? 'border-[#6366f1]/50 bg-[#6366f1]/10'
+                    : 'border-white/10 bg-white/5 hover:bg-white/10'
                 }`}
               >
-                <div className="flex items-start justify-between">
+                <div className="flex items-start justify-between gap-3">
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-2">
+                    <div className="flex items-center gap-2 mb-2 flex-wrap">
                       <span
-                        className="px-2 py-0.5 rounded-full text-xs font-medium"
+                        className="px-2.5 py-0.5 rounded-full text-xs font-medium border"
                         style={{
-                          backgroundColor: status.color + '20',
+                          backgroundColor: status.bg,
                           color: status.color,
+                          borderColor: `${status.color}30`,
                         }}
                       >
                         {status.label}
                       </span>
-                      <span className="text-xs text-[#64748b]">
+                      <span className="text-xs text-white/40">
                         {formatTime(task.createdAt)}
                       </span>
                     </div>
 
-                    <p className="text-sm text-[#f8fafc] line-clamp-2 mb-2">
+                    <p className="text-sm text-white/80 line-clamp-2 mb-2">
                       {task.lyrics}
                     </p>
 
-                    <div className="flex items-center gap-3 text-xs text-[#94a3b8]">
+                    <div className="flex items-center gap-3 text-xs text-white/50">
                       <span className="flex items-center gap-1">
                         <span>🎵</span>
                         {styleLabels[task.style] || task.style}
                       </span>
                       <span className="flex items-center gap-1">
-                        <span>😊</span>
+                        {moodEmojis[task.mood] || '😊'}
                         {task.mood}
                       </span>
                       <span className="flex items-center gap-1">
@@ -114,14 +128,14 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
                       </span>
                     </div>
 
-                    {/* Progress Bar */}
+                    {/* 进度条 */}
                     {(task.status === 'pending' || task.status === 'processing') && (
                       <div className="mt-3">
-                        <div className="flex items-center justify-between text-xs mb-1">
-                          <span className="text-[#94a3b8]">生成进度</span>
-                          <span className="text-[#6366f1]">{task.progress}%</span>
+                        <div className="flex items-center justify-between text-xs mb-1.5">
+                          <span className="text-white/50">生成进度</span>
+                          <span className="text-[#818cf8] font-medium">{task.progress}%</span>
                         </div>
-                        <div className="h-1.5 bg-[#334155] rounded-full overflow-hidden">
+                        <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                           <div
                             className="h-full bg-gradient-to-r from-[#6366f1] to-[#ec4899] rounded-full transition-all duration-500"
                             style={{ width: `${task.progress}%` }}
@@ -130,7 +144,7 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
                       </div>
                     )}
 
-                    {/* Duration */}
+                    {/* 时长 */}
                     {task.status === 'completed' && task.result?.duration && (
                       <div className="mt-2 text-xs text-[#34d399]">
                         时长: {Math.floor(task.result.duration / 60)}:{(task.result.duration % 60).toString().padStart(2, '0')}
@@ -138,15 +152,15 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
                     )}
                   </div>
 
-                  {/* Actions */}
-                  <div className="flex items-center gap-2 ml-3">
+                  {/* 操作按钮 */}
+                  <div className="flex items-center gap-1.5">
                     {task.status === 'completed' && (
                       <button
                         onClick={() => onPlay(task)}
-                        className={`p-2 rounded-lg transition-colors ${
+                        className={`p-2 rounded-lg transition-all ${
                           isCurrent
-                            ? 'bg-[#6366f1] text-white'
-                            : 'bg-[#334155] text-[#94a3b8] hover:bg-[#475569]'
+                            ? 'bg-[#6366f1] text-white shadow-lg shadow-[#6366f1]/30'
+                            : 'bg-white/10 text-white/70 hover:bg-white/20'
                         }`}
                         title="播放"
                       >
@@ -159,7 +173,7 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
                     <button
                       onClick={() => handleDelete(task.id)}
                       disabled={isDeleting}
-                      className="p-2 rounded-lg bg-[#334155] text-[#94a3b8] hover:bg-[#f87171] hover:text-white transition-colors disabled:opacity-50"
+                      className="p-2 rounded-lg bg-white/10 text-white/70 hover:bg-[#f87171]/80 hover:text-white transition-all disabled:opacity-50"
                       title="删除"
                     >
                       {isDeleting ? (

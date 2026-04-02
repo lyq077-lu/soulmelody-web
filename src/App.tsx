@@ -78,34 +78,48 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0f172a]">
-      <Header />
-      
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left: Generator */}
-          <div className="space-y-6">
-            <SongGenerator 
-              onGenerate={handleGenerate}
-              isLoading={isLoading}
-            />
-            
-            {currentTask && currentTask.status === 'completed' && (
-              <AudioPlayer task={currentTask} />
-            )}
-          </div>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* 背景图 */}
+      <div 
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
+        style={{
+          backgroundImage: `url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1920&q=80')`,
+        }}
+      >
+        {/* 渐变遮罩 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/95 via-[#1e1b4b]/90 to-[#0f172a]/95" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent" />
+      </div>
 
-          {/* Right: Task List */}
-          <div>
-            <TaskList 
-              tasks={tasks}
-              onPlay={handlePlay}
-              onDelete={handleDelete}
-              currentTaskId={currentTask?.id}
-            />
+      {/* 内容 */}
+      <div className="relative z-10">
+        <Header />
+        
+        <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-6 lg:py-8">
+          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
+            {/* 左半部分：歌曲生成 */}
+            <div className="space-y-6">
+              <SongGenerator 
+                onGenerate={handleGenerate}
+                isLoading={isLoading}
+              />
+            </div>
+
+            {/* 右半部分：任务列表和播放器 */}
+            <div className="space-y-6">
+              {currentTask && currentTask.status === 'completed' && (
+                <AudioPlayer task={currentTask} />
+              )}
+              <TaskList 
+                tasks={tasks}
+                onPlay={handlePlay}
+                onDelete={handleDelete}
+                currentTaskId={currentTask?.id}
+              />
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 }

@@ -70,16 +70,15 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  // Visualizer bars
   const bars = [1, 2, 3, 4, 5];
 
   return (
-    <div className="bg-gradient-to-br from-[#6366f1]/20 to-[#ec4899]/20 rounded-2xl p-6 border border-[#6366f1]/30">
+    <div className="bg-gradient-to-br from-[#6366f1]/20 to-[#ec4899]/20 backdrop-blur-xl rounded-2xl p-6 border border-[#6366f1]/30 shadow-2xl">
       <audio ref={audioRef} src={audioUrl} preload="metadata" />
 
-      <div className="flex items-center gap-4 mb-4">
-        {/* Album Art / Visualizer */}
-        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#ec4899] flex items-center justify-center">
+      <div className="flex items-center gap-4 mb-5">
+        {/* 可视化/封面 */}
+        <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#ec4899] flex items-center justify-center shadow-lg shadow-[#6366f1]/30">
           {isPlaying ? (
             <div className="flex items-end gap-1 h-8">
               {bars.map((i) => (
@@ -95,20 +94,20 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
           )}
         </div>
 
-        {/* Song Info */}
+        {/* 歌曲信息 */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-[#f8fafc] truncate">
+          <h3 className="font-semibold text-white truncate text-lg">
             {task.lyrics.slice(0, 20)}...
           </h3>
-          <p className="text-sm text-[#94a3b8]">
+          <p className="text-sm text-white/60">
             {task.style} · {task.mood}
           </p>
         </div>
 
-        {/* Play Button */}
+        {/* 播放按钮 */}
         <button
           onClick={togglePlay}
-          className="w-12 h-12 rounded-full btn-primary flex items-center justify-center"
+          className="w-12 h-12 rounded-full bg-gradient-to-r from-[#6366f1] to-[#ec4899] flex items-center justify-center shadow-lg shadow-[#6366f1]/40 hover:scale-105 active:scale-95 transition-all"
         >
           {isPlaying ? (
             <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
@@ -122,9 +121,9 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
         </button>
       </div>
 
-      {/* Progress Bar */}
-      <div className="flex items-center gap-3">
-        <span className="text-xs text-[#94a3b8] w-10 text-right">
+      {/* 进度条 */}
+      <div className="flex items-center gap-3 mb-4">
+        <span className="text-xs text-white/50 w-10 text-right font-mono">
           {formatTime(currentTime)}
         </span>
         <div className="flex-1 relative">
@@ -134,20 +133,20 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
             max={duration || 100}
             value={currentTime}
             onChange={handleSeek}
-            className="w-full h-1.5 bg-[#334155] rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#6366f1] [&::-webkit-slider-thumb]:cursor-pointer"
+            className="w-full h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:cursor-pointer"
             style={{
-              background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${(currentTime / (duration || 1)) * 100}%, #334155 ${(currentTime / (duration || 1)) * 100}%, #334155 100%)`,
+              background: `linear-gradient(to right, #6366f1 0%, #ec4899 ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.1) ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.1) 100%)`,
             }}
           />
         </div>
-        <span className="text-xs text-[#94a3b8] w-10">
+        <span className="text-xs text-white/50 w-10 font-mono">
           {formatTime(duration)}
         </span>
       </div>
 
-      {/* Volume Control */}
-      <div className="flex items-center gap-2 mt-4">
-        <svg className="w-4 h-4 text-[#94a3b8]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      {/* 音量控制 */}
+      <div className="flex items-center gap-3">
+        <svg className="w-4 h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
         </svg>
         <input
@@ -157,9 +156,9 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
           step={0.1}
           value={volume}
           onChange={handleVolume}
-          className="w-24 h-1 bg-[#334155] rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-[#6366f1]"
+          className="w-24 h-1 bg-white/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
           style={{
-            background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${volume * 100}%, #334155 ${volume * 100}%, #334155 100%)`,
+            background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${volume * 100}%, rgba(255,255,255,0.1) ${volume * 100}%, rgba(255,255,255,0.1) 100%)`,
           }}
         />
       </div>
