@@ -92,32 +92,36 @@ function App() {
       </div>
 
       {/* 内容 - 悬浮于背景之上 */}
-      <div className="relative z-10">
+      <div className="relative z-10 flex flex-col min-h-screen">
         <Header />
         
-        <main className="w-full max-w-[1800px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 py-4 sm:py-6 lg:py-8">
-          {/* 左右分栏布局 - 自适应 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 xl:gap-8 items-start">
+        <main className="flex-1 w-full max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-4 sm:py-6 lg:py-8">
+          {/* 左右分栏布局 - 桌面端左右各50% */}
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8 h-full">
             
-            {/* 左半部分：歌曲生成控制面板 */}
-            <div className="w-full">
-              <SongGenerator 
-                onGenerate={handleGenerate}
-                isLoading={isLoading}
-              />
+            {/* 左半部分：歌曲生成控制面板 - 占50%宽度 */}
+            <div className="w-full lg:w-1/2 lg:min-w-0">
+              <div className="h-full">
+                <SongGenerator 
+                  onGenerate={handleGenerate}
+                  isLoading={isLoading}
+                />
+              </div>
             </div>
 
-            {/* 右半部分：任务列表和播放器 */}
-            <div className="w-full space-y-4 sm:space-y-5 lg:space-y-6">
+            {/* 右半部分：任务列表和播放器 - 占50%宽度 */}
+            <div className="w-full lg:w-1/2 lg:min-w-0 flex flex-col gap-6">
               {currentTask && currentTask.status === 'completed' && (
                 <AudioPlayer task={currentTask} />
               )}
-              <TaskList 
-                tasks={tasks}
-                onPlay={handlePlay}
-                onDelete={handleDelete}
-                currentTaskId={currentTask?.id}
-              />
+              <div className="flex-1">
+                <TaskList 
+                  tasks={tasks}
+                  onPlay={handlePlay}
+                  onDelete={handleDelete}
+                  currentTaskId={currentTask?.id}
+                />
+              </div>
             </div>
           </div>
         </main>

@@ -63,9 +63,9 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
         </span>
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
-        {/* 歌词编辑 */}
-        <div>
+      <form onSubmit={handleSubmit} className="space-y-5 flex flex-col">
+        {/* 歌词编辑 - 增加高度 */}
+        <div className="flex-1 min-h-[200px]">
           <label className="block text-sm font-medium text-white/90 mb-2 flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#6366f1]"></span>
             歌词内容
@@ -74,7 +74,7 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
             value={lyrics}
             onChange={(e) => setLyrics(e.target.value)}
             placeholder="请输入歌词内容，AI将为你谱曲...&#10;例如：&#10;阳光洒满窗台&#10;微风轻轻吹来&#10;这一刻多么美好&#10;让我为你歌唱"
-            className="w-full h-28 sm:h-32 px-4 py-3 bg-black/20 border border-white/10 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-[#6366f1]/50 focus:border-[#6366f1]/30 placeholder-white/40 text-white/90 text-sm transition-all"
+            className="w-full h-48 lg:h-56 px-4 py-3 bg-black/20 border border-white/10 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-[#6366f1]/50 focus:border-[#6366f1]/30 placeholder-white/40 text-white/90 text-sm transition-all"
           />
           <div className="text-right text-xs text-white/50 mt-1.5">
             {lyrics.length}/2000 字符
