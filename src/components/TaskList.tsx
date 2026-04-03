@@ -9,10 +9,10 @@ interface TaskListProps {
 }
 
 const statusConfig = {
-  pending: { label: '等待中', color: '#f59e0b', bg: '#fef3c7' },
-  processing: { label: '生成中', color: '#6366f1', bg: '#e0e7ff' },
-  completed: { label: '已完成', color: '#10b981', bg: '#d1fae5' },
-  failed: { label: '失败', color: '#ef4444', bg: '#fee2e2' },
+  pending: { label: '等待中', color: '#fbbf24' },
+  processing: { label: '生成中', color: '#39ff14' },
+  completed: { label: '已完成', color: '#10b981' },
+  failed: { label: '失败', color: '#ef4444' },
 };
 
 const styleLabels: Record<string, string> = {
@@ -47,22 +47,46 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-      <div className="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
-        <h2 className="text-base font-bold text-gray-800">生成记录</h2>
-        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
+    <div>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        marginBottom: '16px',
+        borderBottom: '1px solid rgba(57, 255, 20, 0.3)',
+        paddingBottom: '12px'
+      }}>
+        <h2 style={{
+          fontSize: '20px',
+          fontWeight: 'bold',
+          color: '#39ff14',
+          textShadow: '0 0 10px rgba(57, 255, 20, 0.3)'
+        }}>
+          生成记录
+        </h2>
+        <span style={{
+          fontSize: '12px',
+          color: '#888',
+          backgroundColor: 'rgba(0, 0, 0, 0.3)',
+          padding: '4px 10px',
+          borderRadius: '12px'
+        }}>
           {tasks.length} 首
         </span>
       </div>
 
       {tasks.length === 0 ? (
-        <div className="text-center py-6 text-gray-400">
-          <div className="text-2xl mb-2">🎼</div>
-          <p className="text-sm">还没有生成的歌曲</p>
-          <p className="text-xs mt-1">在左侧开始创作你的第一首歌吧</p>
+        <div style={{
+          textAlign: 'center',
+          padding: '40px 0',
+          color: '#666'
+        }}>
+          <div style={{ fontSize: '40px', marginBottom: '12px' }}>🎼</div>
+          <p style={{ fontSize: '14px' }}>还没有生成的歌曲</p>
+          <p style={{ fontSize: '12px', marginTop: '4px' }}>在左侧开始创作你的第一首歌吧</p>
         </div>
       ) : (
-        <div className="space-y-2 max-h-[350px] overflow-y-auto">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', maxHeight: '400px', overflowY: 'auto' }}>
           {tasks.map((task) => {
             const status = statusConfig[task.status];
             const isCurrent = task.id === currentTaskId;
@@ -71,34 +95,48 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
             return (
               <div
                 key={task.id}
-                className={`p-2.5 rounded-lg border transition-all ${
-                  isCurrent
-                    ? 'border-indigo-500 bg-indigo-50'
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
+                style={{
+                  padding: '14px',
+                  borderRadius: '10px',
+                  border: isCurrent 
+                    ? '1px solid #39ff14' 
+                    : '1px solid rgba(255, 255, 255, 0.1)',
+                  backgroundColor: isCurrent ? 'rgba(57, 255, 20, 0.1)' : 'rgba(0, 0, 0, 0.3)',
+                  transition: 'all 0.2s'
+                }}
               >
-                <div className="flex items-start justify-between gap-2">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span
-                        className="px-1.5 py-0.5 rounded text-xs font-medium"
-                        style={{
-                          backgroundColor: status.bg,
-                          color: status.color,
-                        }}
-                      >
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: '10px' }}>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                      <span style={{
+                        padding: '2px 8px',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        fontWeight: 500,
+                        backgroundColor: `${status.color}20`,
+                        color: status.color
+                      }}>
                         {status.label}
                       </span>
-                      <span className="text-xs text-gray-400">
+                      <span style={{ fontSize: '11px', color: '#666' }}>
                         {formatTime(task.createdAt)}
                       </span>
                     </div>
 
-                    <p className="text-sm text-gray-700 line-clamp-2 mb-1">
+                    <p style={{
+                      fontSize: '14px',
+                      color: '#e0e0e0',
+                      marginBottom: '6px',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical'
+                    }}>
                       {task.lyrics}
                     </p>
 
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: '#888' }}>
                       <span>{styleLabels[task.style] || task.style}</span>
                       <span>·</span>
                       <span>{task.mood}</span>
@@ -108,15 +146,20 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
 
                     {/* 进度条 */}
                     {(task.status === 'pending' || task.status === 'processing') && (
-                      <div className="mt-2">
-                        <div className="flex items-center justify-between text-xs mb-1">
-                          <span className="text-gray-400">进度</span>
-                          <span className="text-indigo-600">{task.progress}%</span>
+                      <div style={{ marginTop: '10px' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '11px', marginBottom: '4px' }}>
+                          <span style={{ color: '#666' }}>进度</span>
+                          <span style={{ color: '#39ff14' }}>{task.progress}%</span>
                         </div>
-                        <div className="h-1 bg-gray-200 rounded-full overflow-hidden">
+                        <div style={{ height: '4px', backgroundColor: 'rgba(255, 255, 255, 0.1)', borderRadius: '2px', overflow: 'hidden' }}>
                           <div
-                            className="h-full bg-indigo-500 rounded-full transition-all"
-                            style={{ width: `${task.progress}%` }}
+                            style={{
+                              height: '100%',
+                              backgroundColor: '#39ff14',
+                              borderRadius: '2px',
+                              transition: 'width 0.5s',
+                              width: `${task.progress}%`
+                            }}
                           />
                         </div>
                       </div>
@@ -124,24 +167,27 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
 
                     {/* 时长 */}
                     {task.status === 'completed' && task.result?.duration && (
-                      <div className="mt-1 text-xs text-green-600">
+                      <div style={{ marginTop: '6px', fontSize: '11px', color: '#10b981' }}>
                         时长: {Math.floor(task.result.duration / 60)}:{(task.result.duration % 60).toString().padStart(2, '0')}
                       </div>
                     )}
                   </div>
 
                   {/* 操作按钮 */}
-                  <div className="flex items-center gap-1">
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                     {task.status === 'completed' && (
                       <button
                         onClick={() => onPlay(task)}
-                        className={`p-1.5 rounded transition-all ${
-                          isCurrent
-                            ? 'bg-indigo-500 text-white'
-                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                        }`}
+                        style={{
+                          padding: '6px',
+                          borderRadius: '6px',
+                          border: 'none',
+                          backgroundColor: isCurrent ? '#39ff14' : 'rgba(255, 255, 255, 0.1)',
+                          color: isCurrent ? '#1a1a2e' : '#e0e0e0',
+                          cursor: 'pointer'
+                        }}
                       >
-                        <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
                           <path d="M8 5v14l11-7z" />
                         </svg>
                       </button>
@@ -150,15 +196,19 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
                     <button
                       onClick={() => handleDelete(task.id)}
                       disabled={isDeleting}
-                      className="p-1.5 rounded bg-gray-100 text-gray-600 hover:bg-red-100 hover:text-red-600 transition-all disabled:opacity-50"
+                      style={{
+                        padding: '6px',
+                        borderRadius: '6px',
+                        border: 'none',
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                        color: '#e0e0e0',
+                        cursor: isDeleting ? 'not-allowed' : 'pointer'
+                      }}
                     >
                       {isDeleting ? (
-                        <svg className="animate-spin w-3.5 h-3.5" viewBox="0 0 24 24">
-                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                          <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                        </svg>
+                        <span>...</span>
                       ) : (
-                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                         </svg>
                       )}

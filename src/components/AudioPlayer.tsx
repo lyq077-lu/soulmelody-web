@@ -71,40 +71,64 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
   };
 
   return (
-    <div className="bg-indigo-50 rounded-lg p-3 border border-indigo-200 mb-3">
+    <div style={{
+      backgroundColor: 'rgba(57, 255, 20, 0.1)',
+      borderRadius: '12px',
+      padding: '16px',
+      border: '1px solid rgba(57, 255, 20, 0.3)',
+      marginBottom: '16px'
+    }}>
       <audio ref={audioRef} src={audioUrl} preload="metadata" />
 
-      <div className="flex items-center gap-3 mb-2">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
         {/* 播放按钮 */}
         <button
           onClick={togglePlay}
-          className="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center hover:bg-indigo-600 transition-colors flex-shrink-0"
+          style={{
+            width: '44px',
+            height: '44px',
+            borderRadius: '50%',
+            border: 'none',
+            backgroundColor: '#39ff14',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            boxShadow: '0 0 15px rgba(57, 255, 20, 0.4)'
+          }}
         >
           {isPlaying ? (
-            <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <svg width="18" height="18" fill="#1a1a2e" viewBox="0 0 24 24">
               <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
             </svg>
           ) : (
-            <svg className="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+            <svg width="18" height="18" fill="#1a1a2e" viewBox="0 0 24 24" style={{ marginLeft: '2px' }}>
               <path d="M8 5v14l11-7z" />
             </svg>
           )}
         </button>
 
         {/* 歌曲信息 */}
-        <div className="flex-1 min-w-0">
-          <h3 className="font-medium text-gray-800 truncate text-sm">
-            {task.lyrics.slice(0, 20)}...
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <h3 style={{
+            fontWeight: 600,
+            color: '#e0e0e0',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            fontSize: '14px'
+          }}>
+            {task.lyrics.slice(0, 25)}...
           </h3>
-          <p className="text-xs text-gray-500">
+          <p style={{ fontSize: '12px', color: '#888', marginTop: '2px' }}>
             {task.style} · {task.mood}
           </p>
         </div>
       </div>
 
       {/* 进度条 */}
-      <div className="flex items-center gap-2 mb-2">
-        <span className="text-xs text-gray-500 w-8 text-right font-mono">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+        <span style={{ fontSize: '11px', color: '#888', width: '36px', textAlign: 'right', fontFamily: 'monospace' }}>
           {formatTime(currentTime)}
         </span>
         <input
@@ -113,19 +137,23 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
           max={duration || 100}
           value={currentTime}
           onChange={handleSeek}
-          className="flex-1 h-1 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-indigo-500"
           style={{
-            background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${(currentTime / (duration || 1)) * 100}%, #e5e7eb ${(currentTime / (duration || 1)) * 100}%, #e5e7eb 100%)`,
+            flex: 1,
+            height: '4px',
+            borderRadius: '2px',
+            appearance: 'none',
+            cursor: 'pointer',
+            background: `linear-gradient(to right, #39ff14 0%, #39ff14 ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.1) ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.1) 100%)`
           }}
         />
-        <span className="text-xs text-gray-500 w-8 font-mono">
+        <span style={{ fontSize: '11px', color: '#888', width: '36px', fontFamily: 'monospace' }}>
           {formatTime(duration)}
         </span>
       </div>
 
       {/* 音量控制 */}
-      <div className="flex items-center gap-2">
-        <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <svg width="16" height="16" fill="none" stroke="#666" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
         </svg>
         <input
@@ -135,9 +163,13 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
           step={0.1}
           value={volume}
           onChange={handleVolume}
-          className="w-20 h-1 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-indigo-500"
           style={{
-            background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${volume * 100}%, #e5e7eb ${volume * 100}%, #e5e7eb 100%)`,
+            width: '80px',
+            height: '4px',
+            borderRadius: '2px',
+            appearance: 'none',
+            cursor: 'pointer',
+            background: `linear-gradient(to right, #39ff14 0%, #39ff14 ${volume * 100}%, rgba(255,255,255,0.1) ${volume * 100}%, rgba(255,255,255,0.1) 100%)`
           }}
         />
       </div>
