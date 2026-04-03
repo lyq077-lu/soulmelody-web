@@ -10,7 +10,6 @@ function App() {
   const [currentTask, setCurrentTask] = useState<SongTask | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  // 轮询任务状态
   useEffect(() => {
     const interval = setInterval(async () => {
       const processingTasks = tasks.filter(t => t.status === 'pending' || t.status === 'processing');
@@ -78,23 +77,23 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-100">
       <Header />
       
-      <main className="w-full max-w-[1600px] mx-auto px-6 py-6">
-        {/* 左右分栏布局 */}
-        <div className="flex flex-col lg:flex-row gap-6">
+      <main className="w-full h-[calc(100vh-60px)]">
+        {/* 左右分栏 - 各占50% */}
+        <div className="flex flex-col lg:flex-row h-full">
           
-          {/* 左半部分：歌曲生成控制面板 */}
-          <div className="w-full lg:w-1/2">
+          {/* 左半部分 - 歌曲生成 */}
+          <div className="w-full lg:w-1/2 h-full overflow-auto p-4 lg:p-6">
             <SongGenerator 
               onGenerate={handleGenerate}
               isLoading={isLoading}
             />
           </div>
 
-          {/* 右半部分：任务列表和播放器 */}
-          <div className="w-full lg:w-1/2 space-y-6">
+          {/* 右半部分 - 任务列表和播放器 */}
+          <div className="w-full lg:w-1/2 h-full overflow-auto p-4 lg:p-6 space-y-4">
             {currentTask && currentTask.status === 'completed' && (
               <AudioPlayer task={currentTask} />
             )}
