@@ -71,14 +71,14 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
   };
 
   return (
-    <div className="bg-indigo-50 rounded-xl p-4 border border-indigo-200">
+    <div className="bg-indigo-50 rounded-lg p-3 border border-indigo-200 mb-3">
       <audio ref={audioRef} src={audioUrl} preload="metadata" />
 
-      <div className="flex items-center gap-3 mb-3">
+      <div className="flex items-center gap-3 mb-2">
         {/* 播放按钮 */}
         <button
           onClick={togglePlay}
-          className="w-10 h-10 rounded-full bg-indigo-500 flex items-center justify-center hover:bg-indigo-600 transition-colors flex-shrink-0"
+          className="w-9 h-9 rounded-full bg-indigo-500 flex items-center justify-center hover:bg-indigo-600 transition-colors flex-shrink-0"
         >
           {isPlaying ? (
             <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">

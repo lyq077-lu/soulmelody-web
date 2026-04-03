@@ -47,22 +47,22 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-5">
-      <div className="flex items-center justify-between mb-4 border-b border-gray-100 pb-3">
-        <h2 className="text-lg font-bold text-gray-800">生成记录</h2>
-        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+      <div className="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
+        <h2 className="text-base font-bold text-gray-800">生成记录</h2>
+        <span className="text-xs text-gray-500 bg-gray-100 px-2 py-0.5 rounded">
           {tasks.length} 首
         </span>
       </div>
 
       {tasks.length === 0 ? (
-        <div className="text-center py-8 text-gray-400">
-          <div className="text-3xl mb-3">🎼</div>
+        <div className="text-center py-6 text-gray-400">
+          <div className="text-2xl mb-2">🎼</div>
           <p className="text-sm">还没有生成的歌曲</p>
           <p className="text-xs mt-1">在左侧开始创作你的第一首歌吧</p>
         </div>
       ) : (
-        <div className="space-y-3 max-h-[400px] overflow-y-auto">
+        <div className="space-y-2 max-h-[350px] overflow-y-auto">
           {tasks.map((task) => {
             const status = statusConfig[task.status];
             const isCurrent = task.id === currentTaskId;
@@ -71,7 +71,7 @@ export function TaskList({ tasks, onPlay, onDelete, currentTaskId }: TaskListPro
             return (
               <div
                 key={task.id}
-                className={`p-3 rounded-lg border transition-all ${
+                className={`p-2.5 rounded-lg border transition-all ${
                   isCurrent
                     ? 'border-indigo-500 bg-indigo-50'
                     : 'border-gray-200 hover:border-gray-300'

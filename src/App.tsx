@@ -80,11 +80,11 @@ function App() {
     <div className="min-h-screen bg-gray-100 flex flex-col">
       <Header />
       
-      {/* 左右分栏 - 始终并排 */}
-      <div style={{ display: 'flex', height: 'calc(100vh - 50px)' }}>
+      {/* 左右分栏 - 各占50%，减少内边距 */}
+      <div style={{ display: 'flex', height: 'calc(100vh - 45px)', gap: '12px', padding: '12px' }}>
         
         {/* 左半部分 - 歌曲生成控制面板 */}
-        <div style={{ width: '50%', height: '100%', overflow: 'auto', padding: '20px', boxSizing: 'border-box' }}>
+        <div style={{ width: '50%', height: '100%', overflow: 'auto' }}>
           <SongGenerator 
             onGenerate={handleGenerate}
             isLoading={isLoading}
@@ -92,7 +92,7 @@ function App() {
         </div>
 
         {/* 右半部分 - 任务列表和播放器 */}
-        <div style={{ width: '50%', height: '100%', overflow: 'auto', padding: '20px', boxSizing: 'border-box' }}>
+        <div style={{ width: '50%', height: '100%', overflow: 'auto' }}>
           {currentTask && currentTask.status === 'completed' && (
             <AudioPlayer task={currentTask} />
           )}
