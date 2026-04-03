@@ -20,12 +20,12 @@ const styles = [
 ];
 
 const moods = [
-  { value: 'happy', label: '欢快', color: '#fbbf24' },
-  { value: 'sad', label: '忧伤', color: '#60a5fa' },
-  { value: 'romantic', label: '浪漫', color: '#f472b6' },
-  { value: 'energetic', label: '激昂', color: '#f87171' },
-  { value: 'calm', label: '宁静', color: '#34d399' },
-  { value: 'epic', label: '史诗', color: '#a78bfa' },
+  { value: 'happy', label: '欢快', color: '#f59e0b' },
+  { value: 'sad', label: '忧伤', color: '#3b82f6' },
+  { value: 'romantic', label: '浪漫', color: '#ec4899' },
+  { value: 'energetic', label: '激昂', color: '#ef4444' },
+  { value: 'calm', label: '宁静', color: '#10b981' },
+  { value: 'epic', label: '史诗', color: '#8b5cf6' },
 ];
 
 const tempos = [
@@ -53,41 +53,37 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
   };
 
   return (
-    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-5 sm:p-6 border border-white/20 shadow-2xl hover:bg-white/15 transition-all duration-300 h-full">
-      <h2 className="text-xl sm:text-2xl font-bold mb-5 sm:mb-6 flex items-center gap-3">
-        <span className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#ec4899] flex items-center justify-center text-base sm:text-lg shadow-lg">
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+      <h2 className="text-xl font-bold mb-6 flex items-center gap-2 text-gray-800">
+        <span className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center text-white text-sm">
           ✨
         </span>
-        <span className="bg-gradient-to-r from-[#6366f1] to-[#ec4899] bg-clip-text text-transparent">
-          创作你的歌曲
-        </span>
+        创作你的歌曲
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-5 flex flex-col">
-        {/* 歌词编辑 - 增加高度 */}
-        <div className="flex-1 min-h-[200px]">
-          <label className="block text-sm font-medium text-white/90 mb-2 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#6366f1]"></span>
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* 歌词编辑 */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             歌词内容
           </label>
           <textarea
             value={lyrics}
             onChange={(e) => setLyrics(e.target.value)}
             placeholder="请输入歌词内容，AI将为你谱曲...&#10;例如：&#10;阳光洒满窗台&#10;微风轻轻吹来&#10;这一刻多么美好&#10;让我为你歌唱"
-            className="w-full h-48 lg:h-56 px-4 py-3 bg-black/20 border border-white/10 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-[#6366f1]/50 focus:border-[#6366f1]/30 placeholder-white/40 text-white/90 text-sm transition-all"
+            className="w-full h-48 px-4 py-3 bg-gray-50 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400 text-gray-700 text-sm"
           />
-          <div className="text-right text-xs text-white/50 mt-1.5">
+          <div className="text-right text-xs text-gray-400 mt-1">
             {lyrics.length}/2000 字符
           </div>
         </div>
 
         {/* 音乐风格选择 */}
         <div>
-          <label className="block text-sm font-medium text-white/90 mb-2.5 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#ec4899]"></span>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             音乐风格
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-2">
             {styles.map((s) => (
               <button
                 key={s.value}
@@ -95,12 +91,12 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
                 onClick={() => setStyle(s.value)}
                 className={`px-2 py-2 rounded-lg text-sm transition-all border ${
                   style === s.value
-                    ? 'bg-[#6366f1]/80 border-[#6366f1] text-white shadow-lg shadow-[#6366f1]/25'
-                    : 'bg-white/5 border-white/10 text-white/70 hover:bg-white/15 hover:border-white/25'
+                    ? 'bg-indigo-500 border-indigo-500 text-white shadow-md'
+                    : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
                 <span className="mr-1">{s.icon}</span>
-                <span className="text-xs sm:text-sm">{s.label}</span>
+                {s.label}
               </button>
             ))}
           </div>
@@ -108,24 +104,22 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
 
         {/* 情感氛围选择 */}
         <div>
-          <label className="block text-sm font-medium text-white/90 mb-2.5 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#fbbf24]"></span>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             情感氛围
           </label>
-          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+          <div className="grid grid-cols-6 gap-2">
             {moods.map((m) => (
               <button
                 key={m.value}
                 type="button"
                 onClick={() => setMood(m.value)}
-                className={`py-2 rounded-lg text-xs sm:text-sm transition-all border ${
+                className={`py-2 rounded-lg text-sm transition-all border ${
                   mood === m.value
-                    ? 'border-white/40 text-white shadow-lg'
-                    : 'bg-white/5 border-white/10 text-white/60 hover:bg-white/10'
+                    ? 'border-gray-400 text-gray-800 shadow-sm'
+                    : 'bg-white border-gray-200 text-gray-600 hover:bg-gray-50'
                 }`}
                 style={{
-                  backgroundColor: mood === m.value ? `${m.color}40` : undefined,
-                  boxShadow: mood === m.value ? `0 4px 15px ${m.color}40` : undefined,
+                  backgroundColor: mood === m.value ? `${m.color}20` : undefined,
                 }}
               >
                 {m.label}
@@ -136,26 +130,25 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
 
         {/* 节奏速度控制 */}
         <div>
-          <label className="block text-sm font-medium text-white/90 mb-2.5 flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#34d399]"></span>
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             节奏速度
           </label>
-          <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          <div className="grid grid-cols-3 gap-3">
             {tempos.map((t) => (
               <button
                 key={t.value}
                 type="button"
                 onClick={() => setTempo(t.value)}
-                className={`p-2.5 sm:p-3 rounded-xl border transition-all ${
+                className={`p-3 rounded-lg border transition-all ${
                   tempo === t.value
-                    ? 'border-[#6366f1] bg-[#6366f1]/30 shadow-lg shadow-[#6366f1]/20'
-                    : 'border-white/10 bg-white/5 hover:border-white/20 hover:bg-white/10'
+                    ? 'border-indigo-500 bg-indigo-50 text-indigo-700 shadow-sm'
+                    : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50'
                 }`}
               >
-                <div className={`font-medium text-sm ${tempo === t.value ? 'text-[#818cf8]' : 'text-white/90'}`}>
+                <div className={`font-medium text-sm ${tempo === t.value ? 'text-indigo-700' : 'text-gray-700'}`}>
                   {t.label}
                 </div>
-                <div className="text-xs text-white/50 mt-0.5">{t.bpm} BPM</div>
+                <div className="text-xs text-gray-400 mt-0.5">{t.bpm} BPM</div>
               </button>
             ))}
           </div>
@@ -165,7 +158,7 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
         <button
           type="submit"
           disabled={!lyrics.trim() || isLoading}
-          className="w-full py-3.5 sm:py-4 rounded-xl bg-gradient-to-r from-[#6366f1] to-[#ec4899] text-white font-semibold text-base sm:text-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:shadow-xl hover:shadow-[#6366f1]/30 transition-all hover:scale-[1.02] active:scale-[0.98] mt-6"
+          className="w-full py-3 rounded-lg bg-indigo-600 text-white font-semibold text-base disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:bg-indigo-700 transition-colors mt-6"
         >
           {isLoading ? (
             <>

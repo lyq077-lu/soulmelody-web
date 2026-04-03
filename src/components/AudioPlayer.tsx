@@ -73,33 +73,33 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
   const bars = [1, 2, 3, 4, 5];
 
   return (
-    <div className="bg-gradient-to-br from-[#6366f1]/25 to-[#ec4899]/25 backdrop-blur-md rounded-2xl p-4 sm:p-5 border border-[#6366f1]/30 shadow-2xl hover:from-[#6366f1]/30 hover:to-[#ec4899]/30 transition-all duration-300">
+    <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-xl p-5 border border-indigo-200">
       <audio ref={audioRef} src={audioUrl} preload="metadata" />
 
-      <div className="flex items-center gap-3 sm:gap-4 mb-4">
+      <div className="flex items-center gap-4 mb-4">
         {/* 可视化/封面 */}
-        <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-xl bg-gradient-to-br from-[#6366f1] to-[#ec4899] flex items-center justify-center shadow-lg shadow-[#6366f1]/30 flex-shrink-0">
+        <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center flex-shrink-0">
           {isPlaying ? (
-            <div className="flex items-end gap-0.5 sm:gap-1 h-6 sm:h-8">
+            <div className="flex items-end gap-1 h-7">
               {bars.map((i) => (
                 <div
                   key={i}
-                  className="w-1 sm:w-1.5 bg-white rounded-full sound-bar"
+                  className="w-1.5 bg-white rounded-full sound-bar"
                   style={{ animationDelay: `${i * 0.1}s` }}
                 />
               ))}
             </div>
           ) : (
-            <span className="text-xl sm:text-2xl">🎵</span>
+            <span className="text-2xl">🎵</span>
           )}
         </div>
 
         {/* 歌曲信息 */}
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-white truncate text-sm sm:text-base">
+          <h3 className="font-semibold text-gray-800 truncate">
             {task.lyrics.slice(0, 15)}...
           </h3>
-          <p className="text-xs text-white/60">
+          <p className="text-sm text-gray-500">
             {task.style} · {task.mood}
           </p>
         </div>
@@ -107,14 +107,14 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
         {/* 播放按钮 */}
         <button
           onClick={togglePlay}
-          className="w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-r from-[#6366f1] to-[#ec4899] flex items-center justify-center shadow-lg shadow-[#6366f1]/40 hover:scale-105 active:scale-95 transition-all flex-shrink-0"
+          className="w-12 h-12 rounded-full bg-indigo-500 flex items-center justify-center hover:bg-indigo-600 transition-colors flex-shrink-0"
         >
           {isPlaying ? (
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
               <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" />
             </svg>
           ) : (
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
           )}
@@ -122,8 +122,8 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
       </div>
 
       {/* 进度条 */}
-      <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
-        <span className="text-xs text-white/50 w-9 sm:w-10 text-right font-mono">
+      <div className="flex items-center gap-3 mb-3">
+        <span className="text-xs text-gray-500 w-10 text-right font-mono">
           {formatTime(currentTime)}
         </span>
         <div className="flex-1 relative">
@@ -133,20 +133,20 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
             max={duration || 100}
             value={currentTime}
             onChange={handleSeek}
-            className="w-full h-1 sm:h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 sm:[&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-2.5 sm:[&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white [&::-webkit-slider-thumb]:shadow-lg [&::-webkit-slider-thumb]:cursor-pointer"
+            className="w-full h-1.5 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3.5 [&::-webkit-slider-thumb]:h-3.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-indigo-500 [&::-webkit-slider-thumb]:cursor-pointer"
             style={{
-              background: `linear-gradient(to right, #6366f1 0%, #ec4899 ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.1) ${(currentTime / (duration || 1)) * 100}%, rgba(255,255,255,0.1) 100%)`,
+              background: `linear-gradient(to right, #6366f1 0%, #8b5cf6 ${(currentTime / (duration || 1)) * 100}%, #e5e7eb ${(currentTime / (duration || 1)) * 100}%, #e5e7eb 100%)`,
             }}
           />
         </div>
-        <span className="text-xs text-white/50 w-9 sm:w-10 font-mono">
+        <span className="text-xs text-gray-500 w-10 font-mono">
           {formatTime(duration)}
         </span>
       </div>
 
       {/* 音量控制 */}
-      <div className="flex items-center gap-2 sm:gap-3">
-        <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <div className="flex items-center gap-3">
+        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
         </svg>
         <input
@@ -156,9 +156,9 @@ export function AudioPlayer({ task }: AudioPlayerProps) {
           step={0.1}
           value={volume}
           onChange={handleVolume}
-          className="flex-1 sm:w-24 h-1 bg-white/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2 sm:[&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2 sm:[&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-white"
+          className="w-24 h-1 bg-gray-200 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-2.5 [&::-webkit-slider-thumb]:h-2.5 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-indigo-500"
           style={{
-            background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${volume * 100}%, rgba(255,255,255,0.1) ${volume * 100}%, rgba(255,255,255,0.1) 100%)`,
+            background: `linear-gradient(to right, #6366f1 0%, #6366f1 ${volume * 100}%, #e5e7eb ${volume * 100}%, #e5e7eb 100%)`,
           }}
         />
       </div>
