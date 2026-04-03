@@ -53,46 +53,52 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-      <h2 className="text-base font-bold mb-3 text-gray-800 border-b border-gray-100 pb-2">
+    <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+      <h2 className="text-lg font-bold mb-4 text-gray-800 border-b border-gray-100 pb-3">
         创作你的歌曲
       </h2>
 
-      <form onSubmit={handleSubmit} className="space-y-3">
-        {/* 歌词编辑 */}
+      <form onSubmit={handleSubmit} className="space-y-5">
+        {/* 歌词编辑 - 宽度80%，高度15vh */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             歌词内容
           </label>
           <textarea
             value={lyrics}
             onChange={(e) => setLyrics(e.target.value)}
             placeholder="请输入歌词内容，AI将为你谱曲...&#10;例如：&#10;阳光洒满窗台&#10;微风轻轻吹来"
-            className="w-full h-32 px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400 text-gray-700 text-sm"
+            style={{ width: '80%', height: '15vh', minHeight: '120px' }}
+            className="px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 placeholder-gray-400 text-gray-700 text-sm"
           />
-          <div className="text-right text-xs text-gray-400 mt-0.5">
+          <div className="text-right text-xs text-gray-400 mt-1" style={{ width: '80%' }}>
             {lyrics.length}/2000
           </div>
         </div>
 
         {/* 音乐风格选择 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             音乐风格
           </label>
-          <div className="grid grid-cols-3 gap-1.5">
+          <div className="grid grid-cols-3 gap-2">
             {styles.map((s) => (
               <button
                 key={s.value}
                 type="button"
                 onClick={() => setStyle(s.value)}
-                className={`px-2 py-1.5 rounded text-xs transition-all border ${
-                  style === s.value
-                    ? 'bg-indigo-600 border-indigo-600 text-white'
-                    : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
-                }`}
+                style={{
+                  padding: '8px 12px',
+                  borderRadius: '6px',
+                  fontSize: '12px',
+                  border: style === s.value ? '1px solid #4f46e5' : '1px solid #e5e7eb',
+                  backgroundColor: style === s.value ? '#4f46e5' : '#ffffff',
+                  color: style === s.value ? '#ffffff' : '#374151',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
               >
-                <span className="mr-1">{s.icon}</span>
+                <span style={{ marginRight: '4px' }}>{s.icon}</span>
                 {s.label}
               </button>
             ))}
@@ -101,20 +107,25 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
 
         {/* 情感氛围选择 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             情感氛围
           </label>
-          <div className="grid grid-cols-6 gap-1.5">
+          <div className="grid grid-cols-6 gap-2">
             {moods.map((m) => (
               <button
                 key={m.value}
                 type="button"
                 onClick={() => setMood(m.value)}
-                className={`py-1.5 rounded text-xs transition-all border ${
-                  mood === m.value
-                    ? 'border-indigo-600 bg-indigo-600 text-white'
-                    : 'bg-white border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'
-                }`}
+                style={{
+                  padding: '8px 4px',
+                  borderRadius: '6px',
+                  fontSize: '12px',
+                  border: mood === m.value ? '1px solid #4f46e5' : '1px solid #e5e7eb',
+                  backgroundColor: mood === m.value ? '#4f46e5' : '#ffffff',
+                  color: mood === m.value ? '#ffffff' : '#374151',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
               >
                 {m.label}
               </button>
@@ -124,25 +135,35 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
 
         {/* 节奏速度控制 */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
             节奏速度
           </label>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-3 gap-3">
             {tempos.map((t) => (
               <button
                 key={t.value}
                 type="button"
                 onClick={() => setTempo(t.value)}
-                className={`p-2 rounded-lg border transition-all ${
-                  tempo === t.value
-                    ? 'border-indigo-600 bg-indigo-600 text-white'
-                    : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300 hover:bg-gray-50'
-                }`}
+                style={{
+                  padding: '10px',
+                  borderRadius: '8px',
+                  border: tempo === t.value ? '1px solid #4f46e5' : '1px solid #e5e7eb',
+                  backgroundColor: tempo === t.value ? '#4f46e5' : '#ffffff',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
               >
-                <div className={`font-medium text-xs ${tempo === t.value ? 'text-white' : 'text-gray-700'}`}>
+                <div style={{ 
+                  fontWeight: 500, 
+                  fontSize: '14px',
+                  color: tempo === t.value ? '#ffffff' : '#374151'
+                }}>
                   {t.label}
                 </div>
-                <div className={`text-xs ${tempo === t.value ? 'text-indigo-100' : 'text-gray-400'}`}>{t.bpm} BPM</div>
+                <div style={{ 
+                  fontSize: '12px',
+                  color: tempo === t.value ? '#e0e7ff' : '#9ca3af'
+                }}>{t.bpm} BPM</div>
               </button>
             ))}
           </div>
@@ -152,11 +173,11 @@ export function SongGenerator({ onGenerate, isLoading }: SongGeneratorProps) {
         <button
           type="submit"
           disabled={!lyrics.trim() || isLoading}
-          className="w-full py-2 rounded-lg bg-indigo-600 text-white font-semibold text-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:bg-indigo-700 transition-colors mt-2"
+          className="w-full py-3 rounded-lg bg-indigo-600 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 hover:bg-indigo-700 transition-colors mt-4"
         >
           {isLoading ? (
             <>
-              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+              <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
               </svg>
