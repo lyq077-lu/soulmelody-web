@@ -79,26 +79,28 @@ function App() {
 
   return (
     <div className="min-h-screen relative overflow-hidden">
-      {/* 背景图 */}
+      {/* 背景图 - 固定不动 */}
       <div 
-        className="fixed inset-0 bg-cover bg-center bg-no-repeat bg-fixed"
+        className="fixed inset-0 bg-cover bg-center bg-no-repeat"
         style={{
           backgroundImage: `url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?w=1920&q=80')`,
         }}
       >
-        {/* 渐变遮罩 */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/95 via-[#1e1b4b]/90 to-[#0f172a]/95" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a] via-transparent to-transparent" />
+        {/* 渐变遮罩 - 增强悬浮效果对比 */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#0f172a]/85 via-[#1e1b4b]/80 to-[#0f172a]/85" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0f172a]/90 via-transparent to-[#0f172a]/50" />
       </div>
 
-      {/* 内容 */}
+      {/* 内容 - 悬浮于背景之上 */}
       <div className="relative z-10">
         <Header />
         
-        <main className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-6 lg:py-8">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
-            {/* 左半部分：歌曲生成 */}
-            <div className="space-y-6">
+        <main className="w-full max-w-[1800px] mx-auto px-3 sm:px-4 lg:px-6 xl:px-8 py-4 sm:py-6 lg:py-8">
+          {/* 左右分栏布局 - 自适应 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 lg:gap-6 xl:gap-8 items-start">
+            
+            {/* 左半部分：歌曲生成控制面板 */}
+            <div className="w-full">
               <SongGenerator 
                 onGenerate={handleGenerate}
                 isLoading={isLoading}
@@ -106,7 +108,7 @@ function App() {
             </div>
 
             {/* 右半部分：任务列表和播放器 */}
-            <div className="space-y-6">
+            <div className="w-full space-y-4 sm:space-y-5 lg:space-y-6">
               {currentTask && currentTask.status === 'completed' && (
                 <AudioPlayer task={currentTask} />
               )}
